@@ -1,0 +1,146 @@
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+public class Main {
+    public static void main(String[] args) {
+        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
+        // to see how IntelliJ IDEA suggests fixing it.
+        System.out.printf("Hello and welcome!");
+
+        for (int i = 1; i <= 5; i++) {
+            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
+            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
+            System.out.println("i = " + i);
+        }
+    }
+}
+package com.example.productcatalog;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Product {
+    @Id
+    private Long id;
+    private String name;
+    private double price;
+    private String category;
+
+    // Constructors, Getters, Setters
+
+    public Product() {}
+
+    public Product(String name, double price, String category) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+}
+package com.example.productcatalog;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    List<Product> findByCategory(String category);
+}
+package com.example.productcatalog;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+public class ProductController {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    // Display Add Product Page
+    @GetMapping("/addProduct")
+    public String showAddProductForm() {
+        return "addProductForm";
+    }
+
+    // Add Product to the Database
+    @PostMapping("/addProduct")
+    public String addProduct(@RequestParam String name, @RequestParam Double price, @RequestParam String category) {
+        Product product = new Product(name, price, category);
+        productRepository.save(product);
+        return "redirect:/displayProduct";
+    }
+
+    // Display Products by Category
+    @GetMapping("/displayProduct")
+    public String showProductList(@RequestParam String category, Model model) {
+        List<Product> products = productRepository.findByCategory(category);
+        model.addAttribute("products", products);
+        return "displayProduct";
+    }
+}
+<form action="/addProduct" method="post">
+    <input type="text" name="name" placeholder="Product Name" required>
+    <input type="number" name="price" placeholder="Price" required>
+    <input type="text" name="category" placeholder="Category" required>
+    <button type="submit">Add Product</button>
+</form>
+<h1>Products in Category</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.category}"></td>
+        </tr>
+    </tbody>
+</table>
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=password
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.h2.console.enabled=true
+spring.jpa.hibernate.ddl-auto=update
