@@ -1,0 +1,107 @@
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+public class Main {
+    public static void main(String[] args) {
+        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
+        // to see how IntelliJ IDEA suggests fixing it.
+        System.out.printf("Hello and welcome!");
+
+        for (int i = 1; i <= 5; i++) {
+            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
+            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
+            System.out.println("i = " + i);
+        }
+    }
+}import java.util.*;
+        import java.util.stream.*;
+
+public class StringToUppercase {
+    public static void main(String[] args) {
+        // Create a stream of strings and convert each string to uppercase
+        List<String> names = Arrays.asList("aBc", "d", "ef");
+
+        // Use map to convert each string to uppercase
+        List<String> upperCaseNames = names.stream()
+                .map(String::toUpperCase)
+                .collect(Collectors.toList());
+
+        // Output the result
+        upperCaseNames.forEach(System.out::println);
+    }
+}
+import java.util.*;
+        import java.util.stream.*;
+
+public class CheckEmptyStrings {
+    public static void main(String[] args) {
+        // List of strings with some empty strings
+        List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd", "", "jkl");
+
+        // Filter out empty strings and print non-empty strings
+        List<String> nonEmptyStrings = strings.stream()
+                .filter(str -> !str.isEmpty())  // Filter non-empty strings
+                .collect(Collectors.toList());
+
+        // Output the result
+        nonEmptyStrings.forEach(System.out::println);
+    }
+}import java.util.*;
+        import java.util.stream.*;
+
+public class FilterStudents {
+    public static void main(String[] args) {
+        // List of students' names
+        List<String> students = Arrays.asList("Alice", "Bob", "Anna", "Tom", "Alex", "John");
+
+        // Filter students whose names start with "A"
+        List<String> filteredStudents = students.stream()
+                .filter(name -> name.startsWith("A")) // Lambda expression
+                .collect(Collectors.toList());
+
+        // Output the result
+        filteredStudents.forEach(System.out::println);
+    }
+}ABC
+        D
+EF
+        abc
+bc
+        efg
+abcd
+        jkl
+Alice
+        Anna
+Alex
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Scanner;
+
+public class AgeCalculator {
+    public static void main(String[] args) {
+        // Create Scanner object to read input
+        Scanner scanner = new Scanner(System.in);
+
+        // Prompt the user to enter their birthdate
+        System.out.print("Enter your birthdate (yyyy-mm-dd): ");
+        String birthdateInput = scanner.nextLine();
+
+        // Convert input to LocalDate
+        LocalDate birthDate = LocalDate.parse(birthdateInput);
+
+        // Get the current date
+        LocalDate currentDate = LocalDate.now();
+
+        // Calculate the period between the birthdate and the current date
+        Period age = Period.between(birthDate, currentDate);
+
+        // Display the result
+        System.out.println("Your age is: " + age.getYears() + " years, "
+                + age.getMonths() + " months, and " + age.getDays() + " days.");
+    }
+}
+
+Enter your birthdate (yyyy-mm-dd): 1990-05-15
+Your age is: 33 years, 4 months, and 13 days.
+
+
+}
