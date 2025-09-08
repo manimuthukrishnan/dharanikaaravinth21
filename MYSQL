@@ -1,0 +1,161 @@
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+public class Main {
+    public static void main(String[] args) {
+        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
+        // to see how IntelliJ IDEA suggests fixing it.
+        System.out.printf("Hello and welcome!");
+
+        for (int i = 1; i <= 5; i++) {
+            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
+            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
+            System.out.println("i = " + i);
+        }
+    }
+}SELECT ename, sal
+FROM Empl
+WHERE sal >= 2200;
+SELECT *
+FROM Empl
+WHERE comm IS NULL;
+        SELECT ename, sal
+FROM Empl
+WHERE sal NOT BETWEEN 2500 AND 4000;
+        SELECT ename, job, sal
+FROM Empl
+WHERE mgr IS NULL;
+SELECT ename
+FROM Empl
+WHERE ename LIKE '__A%';
+SELECT ename
+FROM Empl
+WHERE ename LIKE '%T';
+CREATE TABLE Empl (
+        empno INT PRIMARY KEY,
+        ename VARCHAR(50),
+job VARCHAR(50),
+mgr INT,
+hiredate DATE,
+sal DECIMAL(10, 2),
+comm DECIMAL(10, 2),
+deptno INT
+);
+
+INSERT INTO Empl (empno, ename, job, mgr, hiredate, sal, comm, deptno)
+VALUES
+        (8369, 'SMITH', 'CLERK', 7902, '1990-12-18', 800.00, NULL, 20),
+(8499, 'ANYA', 'SALESMAN', 8698, '1991-02-20', 1200.00, 300.00, 30),
+        (8521, 'SETH', 'SALESMAN', 8698, '1991-02-22', 1250.00, 500.00, 30),
+        (8566, 'MAHADEVAN', 'MANAGER', 8839, '1991-04-02', 2980.00, NULL, 10),
+        (8654, 'MOMIN', 'SALESMAN', 8698, '1991-03-08', 1250.00, 1400.00, 30),
+        (8698, 'BINA', 'SALESMAN', 8698, '1991-02-20', 950.00, NULL, 30),
+        (8882, 'SHIVANSH', 'MANAGER', 8839, '1991-12-09', 2450.00, NULL, 10),
+        (8888, 'SCOTT', 'ANALYST', 8566, '1991-12-09', 3000.00, NULL, 20),
+        (8839, 'AMIR', 'PRESIDENT', NULL, '1991-11-18', 5000.00, NULL, 10),
+        (8844, 'KULDEEP', 'SALESMAN', 8698, '1991-09-08', 1500.00, NULL, 30);
+EName   |  Sal
+--------|---------
+SHIVANSH| 2450.00
+SCOTT   | 3000.00
+AMIR    | 5000.00
+
+empno   | ename   | job     | mgr | hiredate  | sal    | comm  | deptno
+--------|---------|---------|-----|-----------|--------|-------|-------
+        8369    | SMITH   | CLERK  | 7902| 1990-12-18| 800.00 | NULL  | 20
+        8566    | MAHADEVAN| MANAGER| 8839| 1991-04-02| 2980.00| NULL  | 10
+        8698    | BINA    | SALESMAN| 8698| 1991-02-20| 950.00 | NULL  | 30
+        8888    | SCOTT   | ANALYST | 8566| 1991-12-09| 3000.00| NULL  | 20
+
+
+EName   |  Sal
+--------|---------
+SMITH   | 800.00
+ANYA    | 1200.00
+SETH    | 1250.00
+MOMIN   | 1250.00
+BINA    | 950.00
+
+
+CREATE DATABASE employeeDB;
+
+USE employeeDB;
+
+CREATE TABLE Employees (
+        empcode INT PRIMARY KEY,
+        empname VARCHAR(50),
+empage INT,
+esalary DECIMAL(10, 2)
+);
+
+
+
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.26</version>
+</dependency>
+
+
+
+        import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class JdbcInsertExample {
+
+    public static void main(String[] args) {
+        // Database credentials
+        String url = "jdbc:mysql://localhost:3306/employeeDB";  // Change to your database URL
+        String username = "root";  // Change to your MySQL username
+        String password = "password";  // Change to your MySQL password
+
+        // SQL Insert query
+        String insertQuery = "INSERT INTO Employees (empcode, empname, empage, esalary) VALUES (?, ?, ?, ?)";
+
+        // Data to insert
+        Object[][] employeeData = {
+                {101, "Jenny", 25, 10000.00},
+                {102, "Jacky", 30, 20000.00},
+                {103, "Joe", 20, 40000.00},
+                {104, "John", 40, 80000.00},
+                {105, "Shameer", 25, 90000.00}
+        };
+
+        // Establishing the connection and executing the insert operation
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            // Prepare the insert statement
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            // Loop through the employee data and insert each record
+            for (Object[] employee : employeeData) {
+                // Setting the values for the placeholders
+                preparedStatement.setInt(1, (Integer) employee[0]);
+                preparedStatement.setString(2, (String) employee[1]);
+                preparedStatement.setInt(3, (Integer) employee[2]);
+                preparedStatement.setDouble(4, (Double) employee[3]);
+
+                // Execute the insert query
+                preparedStatement.executeUpdate();
+            }
+
+            System.out.println("Data inserted successfully!");
+
+        } catch (SQLException e) {
+            // Handling exceptions
+            e.printStackTrace();
+        }
+    }
+}
+SELECT * FROM Employees;
+
+
++--------+---------+--------+---------+
+        | empcode| empname | empage | esalary |
+        +--------+---------+--------+---------+
+        | 101    | Jenny   | 25     | 10000.00|
+        | 102    | Jacky   | 30     | 20000.00|
+        | 103    | Joe     | 20     | 40000.00|
+        | 104    | John    | 40     | 80000.00|
+        | 105    | Shameer | 25     | 90000.00|
+        +--------+---------+--------+---------+
